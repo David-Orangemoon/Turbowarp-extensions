@@ -1,58 +1,47 @@
-// Some parts of this scripts are based on or designed to be compatible with:
-// https://arpruss.github.io/gamepad.js (MIT Licensed)
+// We use class syntax to define our extension object
+// This isn't actually necessary, but it tends to look the best
 
-class Gamepad {
+class MyExtension {
+  /**
+   * Scratch will call this method *once* when the extension loads.
+   * This method's job is to tell Scratch things like the extension's ID, name, and what blocks it supports.
+   */
   getInfo() {
     return {
-      id: 'Gamepad',
-      name: 'Gamepad',
+      // `id` is the internal ID of the extension
+      // It should never change!
+      // If you choose to make an actual extension, please change this to something else.
+      // Only the characters a-z and 0-9 can be used. No spaces or special characters.
+      id: 'myextensionexample',
+
+      // `name` is what the user sees in the toolbox
+      // It can be changed without breaking projects.
+      name: 'Cool Extension',
+
       blocks: [
         {
-          opcode: 'buttonDown',
-          blockType: Scratch.BlockType.BOOLEAN,
-          text: 'button [b] of pad [i] is down?',
-          arguments: {
-            b: {
-              type: Scratch.ArgumentType.NUMBER,
-              defaultValue: '1'
-            },
-            i: {
-              type: Scratch.ArgumentType.NUMBER,
-              defaultValue: '1',
-              menu: 'padMenu'
-            }
-          }
+          // `opcode` is the internal ID of the block
+          // It should never change!
+          // It corresponds to the class method with the same name.
+          opcode: 'hello',
+          blockType: Scratch.BlockType.REPORTER,
+          text: 'Hello, world!'
         }
-      ],
-      menus: {
-        padMenu: {
-          acceptReporters: true,
-          items: [
-            {
-              text: "1",
-              value: 1
-            },
-            {
-              text: "2",
-              value: 2
-            },
-            {
-              text: "3",
-              value: 3
-            },
-            {
-              text: "4",
-              value: 4
-            }
-          ],
-        }
-      }
+      ]
     };
   }
 
-  buttonDown ({b, i}) {
-    return navigator.getGamepads()[i - 1].buttons[b - 1].pressed;
+  /**
+   * Corresponds to `opcode: 'hello'` above
+   */
+  hello() {
+    // You can just return a value: any string, boolean, or number will work.
+    // If you have to perform an asynchronous action like a request, just return a Promise.
+    // The block will wait until the Promise resolves and return the resolved value.
+    return 'Hello, world!';
   }
 }
 
-Scratch.extensions.register(new Gamepad());
+// Call Scratch.extensions.register to register your extension
+// Make sure to register each extension exactly once
+Scratch.extensions.register(new MyExtension());
